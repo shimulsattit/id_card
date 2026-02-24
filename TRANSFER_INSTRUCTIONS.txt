@@ -1,0 +1,21 @@
+PROJECT TRANSFER INSTRUCTIONS
+=============================
+
+1. ZIP File: "c:\laragon\www\id_generate_transfer.zip"
+   - This file contains the complete source code of the project.
+   - It is being created in the parent directory of this project.
+
+2. Database Dump: "c:\laragon\www\id_generate\id_generate.sql"
+   - This file contains the full database backup.
+
+INSTRUCTIONS FOR NEW PC:
+------------------------
+1. Extract the ZIP file to your web server directory (e.g., c:\laragon\www\id_generate).
+2. Create a new MySQL database named 'id_generate'.
+3. Import the SQL file:
+   mysql -u root -p id_generate < id_generate.sql
+4. Run 'composer install' (if vendor folder is missing/corrupt).
+5. Run 'php artisan key:generate' (if .env key is missing).
+6. Run 'php artisan storage:link' to link the uploads folder.
+
+Good luck!
