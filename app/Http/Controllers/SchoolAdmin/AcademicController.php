@@ -10,9 +10,10 @@ class AcademicController extends Controller
 {
     public function index()
     {
-        $school = Auth::user()->school;
-        $allClasses = ['Play', 'Nursery', 'KG', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'Eleven', 'Twelve', 'Honours'];
-        $currentClasses = $school->classes ?? [];
+        $school = Auth::user()->school->fresh();
+        $standardClasses = ['Play', 'Nursery', 'KG', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'Eleven', 'Twelve', 'Honours'];
+        $currentClasses = is_array($school->classes) ? $school->classes : [];
+        $allClasses = array_values(array_unique(array_merge($standardClasses, $currentClasses)));
         $currentSections = $school->sections ?? [];
         $currentSessions = $school->sessions ?? [];
 

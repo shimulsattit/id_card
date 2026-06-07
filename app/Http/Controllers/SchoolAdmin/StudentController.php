@@ -29,9 +29,17 @@ class StudentController extends Controller
         if ($request->input('session')) {
             $query->where('session', $request->input('session'));
         }
+        if ($request->student_id) {
+            $query->where('student_id', $request->student_id);
+        }
+        if ($request->contact_no) {
+            $query->where('contact_no', 'like', '%' . $request->contact_no . '%');
+        }
         if ($request->has('search') && $request->search) {
-            $query->where('name', 'like', '%' . $request->search . '%')
-                ->orWhere('roll', 'like', '%' . $request->search . '%');
+            $query->where(function ($q) use ($request) {
+                $q->where('name', 'like', '%' . $request->search . '%')
+                    ->orWhere('roll', 'like', '%' . $request->search . '%');
+            });
         }
 
         // Fetch classes and sections for the filter dropdowns

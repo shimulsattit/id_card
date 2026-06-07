@@ -30,7 +30,7 @@ class IdCardController extends Controller
             })->get();
 
         $students = collect();
-        if ($request->has('class') || $request->has('section') || $request->input('session')) {
+        if ($request->has('class') || $request->has('section') || $request->input('session') || $request->student_id || $request->contact_no) {
             $query = Student::where('school_id', $schoolId);
             if ($request->class)
                 $query->where('class', $request->class);
@@ -38,6 +38,10 @@ class IdCardController extends Controller
                 $query->where('section', $request->section);
             if ($request->input('session'))
                 $query->where('session', $request->input('session'));
+            if ($request->student_id)
+                $query->where('student_id', $request->student_id);
+            if ($request->contact_no)
+                $query->where('contact_no', 'like', '%' . $request->contact_no . '%');
             $students = $query->get();
         }
 
