@@ -3,7 +3,12 @@
 @section('content')
     <div class="max-w-7xl mx-auto">
         <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
-            <h1 class="text-3xl font-bold text-gray-800">Manage Students</h1>
+            <div class="flex items-center gap-3">
+                <h1 class="text-3xl font-bold text-gray-800">Manage Students</h1>
+                <span class="bg-blue-100 text-blue-800 text-sm font-bold px-3 py-1 rounded-full shadow-sm border border-blue-200">
+                    Total: {{ $students->total() }}
+                </span>
+            </div>
             <div class="flex gap-2">
                  <a href="{{ route('school.students.export-report') }}" class="bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white font-bold py-2 px-6 rounded-lg shadow-md transform transition hover:-translate-y-0.5">
                     <i class="fas fa-file-alt mr-2"></i> Student Report
@@ -17,7 +22,7 @@
 
         <!-- Filter -->
         <div class="bg-white p-6 rounded-xl shadow-md border border-gray-100 mb-8">
-            <form action="{{ route('school.students.index') }}" method="GET" class="grid grid-cols-1 md:grid-cols-5 gap-4">
+            <form action="{{ route('school.students.index') }}" method="GET" class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-7 gap-4">
                 <select name="class" onchange="this.form.submit()" class="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition duration-200 bg-white">
                     <option value="">Filter by Class</option>
                     @foreach($classes as $class)
@@ -38,6 +43,12 @@
                         <option value="{{ $sess }}" {{ request('session') == $sess ? 'selected' : '' }}>{{ $sess }}</option>
                     @endforeach
                 </select>
+
+                <input type="text" name="student_id" placeholder="Student ID" value="{{ request('student_id') }}"
+                    class="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition duration-200">
+
+                <input type="text" name="contact_no" placeholder="Mobile No" value="{{ request('contact_no') }}"
+                    class="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition duration-200">
                 
                 <input type="text" name="search" placeholder="Search Name/Roll" value="{{ request('search') }}"
                     class="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition duration-200">

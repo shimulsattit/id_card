@@ -7,10 +7,15 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
+use Filament\Models\Contracts\HasTenants;
+use Filament\Panel;
+use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\Model;
 
-class User extends Authenticatable
+class User extends Authenticatable implements HasTenants
 {
     use HasFactory, Notifiable, HasRoles;
+
 
     /**
      * The attributes that are mass assignable.
@@ -52,4 +57,15 @@ class User extends Authenticatable
     {
         return $this->belongsTo(School::class);
     }
+
+    public function getTenants(Panel $panel): Collection
+    {
+        return collect([$this->school]);
+    }
+
+    public function canAccessTenant(Model $tenant): bool
+    {
+        return $this->school_id === $tenant->id;
+    }
 }
+

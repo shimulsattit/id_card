@@ -11,10 +11,12 @@ class Student extends Model
 
     protected $fillable = [
         'school_id',
+        'academic_class_id',
+        'section_id',
         'student_id',
         'registration_no',
         'name',
-        'class',
+        'class', // Keeping old fields for compatibility during migration
         'section',
         'roll',
         'session',
@@ -26,6 +28,33 @@ class Student extends Model
         'photo',
         'signature'
     ];
+
+    public function academicClass()
+    {
+        return $this->belongsTo(AcademicClass::class);
+    }
+
+    public function academicSection()
+    {
+        return $this->belongsTo(Section::class, 'section_id');
+    }
+
+
+    public function getBloodGroup($bg)
+    {
+        $groups = [
+            'A+' => 'A Positive',
+            'A-' => 'A Negative',
+            'B+' => 'B Positive',
+            'B-' => 'B Negative',
+            'O+' => 'O Positive',
+            'O-' => 'O Negative',
+            'AB+' => 'AB Positive',
+            'AB-' => 'AB Negative',
+        ];
+
+        return $groups[strtoupper($bg)] ?? $bg;
+    }
 
     public function school()
     {

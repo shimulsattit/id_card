@@ -25,7 +25,7 @@
                                 <div class="relative group cursor-pointer" onclick="selectTemplate('{{ $template->id }}')">
                                     <div id="card_{{ $template->id }}"
                                         class="border-4 rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1
-                                                                                                                             {{ (request('template') == $template->id || $loop->first && !request('template')) ? 'border-blue-500 ring-2 ring-blue-200' : 'border-transparent' }}">
+                                                                                                                                             {{ (request('template') == $template->id || $loop->first && !request('template')) ? 'border-blue-500 ring-2 ring-blue-200' : 'border-transparent' }}">
                                         <img src="{{ asset('storage/' . $template->background_image) }}"
                                             alt="{{ $template->name }}" class="w-full h-auto object-cover aspect-[2.125/3.375]">
 
@@ -42,7 +42,7 @@
                                     <!-- Checkmark -->
                                     <div id="check_{{ $template->id }}"
                                         class="absolute top-3 right-3 bg-blue-500 text-white rounded-full p-1 shadow-md transform scale-0 transition-transform duration-200
-                                                                                                                             {{ (request('template') == $template->id || $loop->first && !request('template')) ? 'scale-100' : '' }}">
+                                                                                                                                             {{ (request('template') == $template->id || $loop->first && !request('template')) ? 'scale-100' : '' }}">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                 d="M5 13l4 4L19 7"></path>
@@ -146,7 +146,7 @@
                             Students</h3>
 
                         <div class="bg-gray-50 p-6 rounded-xl border border-gray-200">
-                            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                            <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-6">
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-2">Class</label>
                                     <select name="class" id="classFilter"
@@ -182,6 +182,18 @@
                                             </option>
                                         @endforeach
                                     </select>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Student ID</label>
+                                    <input type="text" id="studentIdFilter" value="{{ request('student_id') }}"
+                                        placeholder="e.g. 250243"
+                                        class="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 transition">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Mobile No</label>
+                                    <input type="text" id="mobileFilter" value="{{ request('contact_no') }}"
+                                        placeholder="Mobile No"
+                                        class="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 transition">
                                 </div>
                                 <div class="flex items-end md:col-span-1">
                                     <button type="button" onclick="applyFilter()"
@@ -325,11 +337,12 @@
 
             document.getElementById('selectedTemplateId').value = id;
         }
-
         function applyFilter() {
             const classVal = document.getElementById('classFilter').value;
             const sectionVal = document.getElementById('sectionFilter').value;
             const sessionVal = document.getElementById('sessionFilter').value;
+            const studentIdVal = document.getElementById('studentIdFilter').value;
+            const mobileVal = document.getElementById('mobileFilter').value;
             const templateId = document.getElementById('selectedTemplateId').value;
 
             let url = new URL(window.location.href);
@@ -341,6 +354,12 @@
 
             if (sessionVal) url.searchParams.set('session', sessionVal);
             else url.searchParams.delete('session');
+
+            if (studentIdVal) url.searchParams.set('student_id', studentIdVal);
+            else url.searchParams.delete('student_id');
+
+            if (mobileVal) url.searchParams.set('contact_no', mobileVal);
+            else url.searchParams.delete('contact_no');
 
             if (templateId) url.searchParams.set('template', templateId); // Keep template selected
 
