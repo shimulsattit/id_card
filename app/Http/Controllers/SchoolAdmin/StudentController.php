@@ -328,8 +328,9 @@ class StudentController extends Controller
                         Storage::disk('public')->delete($student->photo);
                     }
 
-                    // Move file to public storage
-                    $newPath = 'students/photos/' . $filename;
+                    // Create a unique filename for the new photo
+                    $newFileName = $schoolId . '_' . uniqid() . '_' . $filename;
+                    $newPath = 'students/photos/' . $newFileName;
 
                     // We need to use Storage facade to put file to public disk correctly
                     // Reading file content and putting it to storage is safer for different filesystem drivers
